@@ -55,9 +55,9 @@ module ExchangeRate
       end
 
       def build_currency_rate(currency:, value_in_euro:, date_of_rate:)
-        CurrencyRate.new(currency: currency,
-                         value_in_euro: value_in_euro,
-                         date_of_rate: date_of_rate)
+        rate = CurrencyRate.find_or_initialize_by(currency: currency, date_of_rate: date_of_rate)
+        rate.value_in_euro = value_in_euro
+        rate.tap(&:save!)
       end
     end
   end
