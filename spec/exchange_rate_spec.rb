@@ -47,15 +47,23 @@ RSpec.describe ExchangeRate, :vcr do
       expect(ExchangeRate::CurrencyRate.find_by(date_of_rate: fx_rate_date, currency: 'USD').value_in_euro).to eq(1.1616)
     end
 
-    xit 'raises ExchangeRate::RetrievalFailed when the the feed cannot be retrieved' do
+    it 'raises ExchangeRate::RetrievalFailed when the the feed cannot be retrieved' do
+      ExchangeRate.configure do |config|
+        config.rate_retriever = ExchangeRate::RateSources::ECBRateRetriever.new(feed_url: 'borked_protocol://example.com')
+      end
+
+      expect{ ExchangeRate.retrieve }.to raise_error(ExchangeRate::RetrievalFailedError)
     end
   end
 
   describe "configure" do
-    xit 'can use a custom database connection' do
-    end
+    it 'can use a custom FX rate provider' do
+      custom_retriever = 'An arbitrary thing'
+      ExchangeRate.configure do |config|
+        config.rate_retriever = custom_retriever
+      end
 
-    xit 'can use a custom FX rate provider' do
+      expect(ExchangeRate.configuration.rate_retriever).to eq(custom_retriever)
     end
   end
 

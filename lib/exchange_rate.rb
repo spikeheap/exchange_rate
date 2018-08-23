@@ -1,3 +1,4 @@
+require "exchange_rate/configuration"
 require "exchange_rate/currency_converter"
 require "exchange_rate/currency_rate"
 require "exchange_rate/database_connection"
@@ -9,14 +10,11 @@ require "exchange_rate/version"
 module ExchangeRate
   # Retrieve the remote FX rate feed, and cache locally
   def self.retrieve
-    # TODO refactor
-    ExchangeRate::DatabaseConnection.connect
-
     # We expect all rate retrievers to be nice and return ExchangeRate::RetrievalFailed
     # but we'll catch everything here to safeguard against custom providers' errors
     # bubbling up to the caller
     begin
-      ExchangeRate::RateSources::ECBRateRetriever.new.save!
+      self.configuration.rate_retriever.save!
     rescue
       raise ExchangeRate::RetrievalFailedError
     end
@@ -29,5 +27,14 @@ module ExchangeRate
     rescue
       raise ExchangeRate::MissingRateError
     end
+  end
+
+  # Largely based on https://brandonhilkert.com/blog/ruby-gem-configuration-patterns/
+  def self.configuration
+    @configuration ||= Configuration.new
+  end
+
+  def self.configure
+    yield(configuration)
   end
 end
