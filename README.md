@@ -45,6 +45,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Using a custom database
 > TODO
+> TODO ENV['environment']
 
 ## Refreshing data with cron
 > TODO
