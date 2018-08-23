@@ -17,7 +17,7 @@ module ExchangeRate
       ActiveRecord::Schema.define do
         create_table(:currency_rates, force: true, timestamps: true) do |t|
           t.string  :currency, null: false
-          t.numeric :value_in_euro, null: false
+          t.decimal :value_in_euro, null: false
           t.date    :date_of_rate, null: false
         end
       end
