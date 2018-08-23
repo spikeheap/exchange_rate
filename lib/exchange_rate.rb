@@ -1,3 +1,4 @@
+require "exchange_rate/currency_converter"
 require "exchange_rate/currency_rate"
 require "exchange_rate/database_connection"
 require "exchange_rate/missing_rate_error"
@@ -24,7 +25,7 @@ module ExchangeRate
 
   def self.at(date_of_rate, from_currency, to_currency)
     begin
-      raise ExchangeRate::MissingRateError
+      ExchangeRate::CurrencyConverter.new(date_of_rate, from_currency, to_currency).convert!
     rescue
       raise ExchangeRate::MissingRateError
     end
