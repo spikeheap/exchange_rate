@@ -2,7 +2,7 @@ require 'date'
 
 # These are the high-level acceptance tests
 # for ExchangeRate
-RSpec.describe ExchangeRate do
+RSpec.describe ExchangeRate, :vcr do
   # This date references a value in the VCR for the tests, and will
   # likely need updating when the VCR is re-recorded
   let(:fx_rate_date) { Date.parse('2018-08-22') }
@@ -16,28 +16,33 @@ RSpec.describe ExchangeRate do
       expect(ExchangeRate.at(fx_rate_date,'GBP','USD')).to eq(1.291700027)
     end
 
-    xit 'raises ExchangeRate::NoData when the requested value does not exist locally' do
+    it 'raises ExchangeRate::MissingRateError when the requested value does not exist locally' do
+      expect do
+        ExchangeRate.at(Date.today,'GBP','USD')
+      end.to raise_error(ExchangeRate::MissingRateError)
     end
   end
 
   describe "#retrieve" do
-
     it 'fetches the feed and stores the values locally' do
       ExchangeRate.retrieve
 
-      # Check the right number of records were saved (32 currencies * 90 days)
-      expect(ExchangeRate::CurrencyRate.count).to eq(2880)
+      # Check the right number of records were saved (32 currencies * 90 working days)
+      # The ECB feed doesn't include records for weekends.
+      expect(ExchangeRate::CurrencyRate.count).to eq(2048)
 
       # Spot check a couple of values
-      expect(ExchangeRate::CurrencyRate.where(exchange_date: fx_rate_date, currency: 'USD')).to eq(1.1616)
-      expect(ExchangeRate::CurrencyRate.where(exchange_date: fx_rate_date, currency: 'GBP')).to eq(0.89928)
+      expect(ExchangeRate::CurrencyRate.find_by(date_of_rate: fx_rate_date, currency: 'USD').value_in_euro).to eq(1.1616)
+      expect(ExchangeRate::CurrencyRate.find_by(date_of_rate: fx_rate_date, currency: 'GBP').value_in_euro).to eq(0.89928)
     end
 
-    xit 'overwrites existing values' do
+    it 'overwrites existing values' do
+      ExchangeRate::CurrencyRate.create!(date_of_rate: fx_rate_date, currency: 'USD', value_in_euro: 100)
+      ExchangeRate.retrieve
+
+      expect(ExchangeRate::CurrencyRate.find_by(date_of_rate: fx_rate_date, currency: 'USD').value_in_euro).to eq(1.1616)
     end
 
-    xit 'raises ExchangeRate::RetrievalFailed when the the feed cannot be retrieved' do
-    end
     xit 'raises ExchangeRate::RetrievalFailed when the the feed cannot be retrieved' do
     end
   end
