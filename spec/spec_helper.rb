@@ -1,4 +1,11 @@
 require "bundler/setup"
+require 'simplecov'
+
+# We need to start simplecov *before* we load our code
+SimpleCov.start do
+  add_filter %r{^/spec/}
+end
+
 require "exchange_rate"
 
 RSpec.configure do |config|
