@@ -45,7 +45,7 @@ module ExchangeRate
       def rates_from(rate_date_hash, rate_effective_date)
         rate_date_hash["Cube"].map do |currency_rate_hash|
           build_currency_rate(currency: currency_rate_hash["currency"],
-                              value_in_euro: currency_rate_hash["rate"].to_f,
+                              value_in_euro: currency_rate_hash["rate"].to_d,
                               date_of_rate: rate_effective_date)
         end
       end
