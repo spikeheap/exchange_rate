@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'date'
 
 # These are the high-level acceptance tests
@@ -7,27 +9,27 @@ RSpec.describe ExchangeRate, :vcr do
   # likely need updating when the VCR is re-recorded
   let(:fx_rate_date) { Date.parse('2018-08-22') }
 
-  it "has a version number" do
+  it 'has a version number' do
     expect(ExchangeRate::VERSION).not_to be nil
   end
 
-  describe "#at" do
+  describe '#at' do
     it 'uses the local cache of the feed values' do
       source = ExchangeRate::CurrencyRate.create!(date_of_rate: fx_rate_date, currency: 'GBP', value_in_euro: 0.89928)
       target = ExchangeRate::CurrencyRate.create!(date_of_rate: fx_rate_date, currency: 'USD', value_in_euro: 1.1616)
 
       expected_value = (1 / source.value_in_euro) * target.value_in_euro
-      expect(ExchangeRate.at(fx_rate_date,'GBP','USD')).to eq(expected_value)
+      expect(ExchangeRate.at(fx_rate_date, 'GBP', 'USD')).to eq(expected_value)
     end
 
     it 'raises ExchangeRate::MissingRateError when the requested value does not exist locally' do
       expect do
-        ExchangeRate.at(Date.today,'GBP','USD')
+        ExchangeRate.at(Date.today, 'GBP', 'USD')
       end.to raise_error(ExchangeRate::MissingRateError)
     end
   end
 
-  describe "#retrieve" do
+  describe '#retrieve' do
     it 'fetches the feed and stores the values locally' do
       ExchangeRate.retrieve
 
@@ -52,11 +54,11 @@ RSpec.describe ExchangeRate, :vcr do
         config.rate_retriever = ExchangeRate::RateSources::ECBRateRetriever.new(feed_url: 'borked_protocol://example.com')
       end
 
-      expect{ ExchangeRate.retrieve }.to raise_error(ExchangeRate::RetrievalFailedError)
+      expect { ExchangeRate.retrieve }.to raise_error(ExchangeRate::RetrievalFailedError)
     end
   end
 
-  describe "configure" do
+  describe 'configure' do
     it 'can use a custom FX rate provider' do
       custom_retriever = 'An arbitrary thing'
       ExchangeRate.configure do |config|
@@ -66,7 +68,4 @@ RSpec.describe ExchangeRate, :vcr do
       expect(ExchangeRate.configuration.rate_retriever).to eq(custom_retriever)
     end
   end
-
-
-  
 end

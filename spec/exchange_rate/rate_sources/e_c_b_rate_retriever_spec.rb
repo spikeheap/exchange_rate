@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe ExchangeRate::RateSources::ECBRateRetriever, :vcr do
   # This date references a value in the VCR for the tests, and will
   # likely need updating when the VCR is re-recorded

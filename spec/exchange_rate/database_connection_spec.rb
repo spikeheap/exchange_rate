@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 RSpec.describe ExchangeRate::DatabaseConnection do
   describe '#connect' do
-    #TODO
+    # TODO
   end
 
   describe '#apply_schema' do
-    #TODO
+    # TODO
   end
 
   describe '#environment' do
-    #TODO
+    # TODO
   end
 end

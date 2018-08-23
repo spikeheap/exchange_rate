@@ -1,14 +1,16 @@
+# frozen_string_literal: true
+
 require 'yaml'
 
 module ExchangeRate
   class DatabaseConnection
-    # TODO test
+    # TODO: test
     # FIXME: this won't play well with another AR instance
     def self.connect
       db_settings = YAML.load_file('db/database.yml')
       ActiveRecord::Base.establish_connection(db_settings[environment])
 
-      self.apply_schema
+      apply_schema
     end
 
     def self.apply_schema

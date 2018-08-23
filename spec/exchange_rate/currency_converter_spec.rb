@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 RSpec.describe ExchangeRate::CurrencyConverter do
   let(:fx_rate_date) { Date.parse('2018-08-22') }
   let(:source_rate) { ExchangeRate::CurrencyRate.create!(date_of_rate: fx_rate_date, currency: 'GBP', value_in_euro: 0.89928) }
   let(:target_rate) { ExchangeRate::CurrencyRate.create!(date_of_rate: fx_rate_date, currency: 'USD', value_in_euro: 1.1616) }
-  let(:subject) { described_class.new(fx_rate_date, 'GBP', 'USD')}
+  let(:subject) { described_class.new(fx_rate_date, 'GBP', 'USD') }
 
   describe '#convert!' do
     it 'converts 1 unit by default' do
@@ -23,12 +25,12 @@ RSpec.describe ExchangeRate::CurrencyConverter do
 
     it 'raises ExchangeRate::MissingRateError when there is no cached source rate' do
       target_rate # ensure target rate is created
-      expect{ subject.convert! }.to raise_error(ExchangeRate::MissingRateError)
+      expect { subject.convert! }.to raise_error(ExchangeRate::MissingRateError)
     end
 
     it 'raises ExchangeRate::MissingRateError when there is no cached target rate' do
       source_rate # ensure source rate is created
-      expect{ subject.convert! }.to raise_error(ExchangeRate::MissingRateError)
+      expect { subject.convert! }.to raise_error(ExchangeRate::MissingRateError)
     end
   end
 
@@ -39,7 +41,7 @@ RSpec.describe ExchangeRate::CurrencyConverter do
     end
 
     it 'raises ExchangeRate::MissingRateError when there is no cached value' do
-      expect{ subject.source_rate }.to raise_error(ExchangeRate::MissingRateError)
+      expect { subject.source_rate }.to raise_error(ExchangeRate::MissingRateError)
     end
   end
 
@@ -50,7 +52,7 @@ RSpec.describe ExchangeRate::CurrencyConverter do
     end
 
     it 'raises ExchangeRate::MissingRateError when there is no cached value' do
-      expect{ subject.target_rate }.to raise_error(ExchangeRate::MissingRateError)
+      expect { subject.target_rate }.to raise_error(ExchangeRate::MissingRateError)
     end
   end
 end
