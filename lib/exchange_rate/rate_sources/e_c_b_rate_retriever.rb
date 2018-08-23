@@ -5,7 +5,9 @@ require "uri"
 module ExchangeRate
   module RateSources
     class ECBRateRetriever
-      def initialize(feed_url: 'http://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist-90d.xml')
+      DEFAULT_FEED_URL = 'http://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist-90d.xml'
+
+      def initialize(feed_url: DEFAULT_FEED_URL)
         @feed_url = feed_url
       end
 
