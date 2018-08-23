@@ -13,7 +13,11 @@ RSpec.describe ExchangeRate, :vcr do
 
   describe "#at" do
     it 'uses the local cache of the feed values' do
-      expect(ExchangeRate.at(fx_rate_date,'GBP','USD')).to eq(1.291700027)
+      source = ExchangeRate::CurrencyRate.create!(date_of_rate: fx_rate_date, currency: 'GBP', value_in_euro: 0.89928)
+      target = ExchangeRate::CurrencyRate.create!(date_of_rate: fx_rate_date, currency: 'USD', value_in_euro: 1.1616)
+
+      expected_value = (1 / source.value_in_euro) * target.value_in_euro
+      expect(ExchangeRate.at(fx_rate_date,'GBP','USD')).to eq(expected_value)
     end
 
     it 'raises ExchangeRate::MissingRateError when the requested value does not exist locally' do
@@ -32,8 +36,8 @@ RSpec.describe ExchangeRate, :vcr do
       expect(ExchangeRate::CurrencyRate.count).to eq(2048)
 
       # Spot check a couple of values
-      expect(ExchangeRate::CurrencyRate.find_by(date_of_rate: fx_rate_date, currency: 'USD').value_in_euro).to eq(1.1616)
       expect(ExchangeRate::CurrencyRate.find_by(date_of_rate: fx_rate_date, currency: 'GBP').value_in_euro).to eq(0.89928)
+      expect(ExchangeRate::CurrencyRate.find_by(date_of_rate: fx_rate_date, currency: 'USD').value_in_euro).to eq(1.1616)
     end
 
     it 'overwrites existing values' do
