@@ -1,6 +1,8 @@
 require "bundler/setup"
+require 'database_cleaner'
 require 'simplecov'
 require 'vcr'
+# FIXME: refactor into multiple files
 
 # We need to start simplecov *before* we load our code
 SimpleCov.start do
@@ -8,6 +10,8 @@ SimpleCov.start do
 end
 
 require "exchange_rate"
+
+DatabaseCleaner.strategy = :truncation
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -19,7 +23,16 @@ RSpec.configure do |config|
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
+
+  config.before(:all) do
+    ExchangeRate::DatabaseConnection.connect
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
 end
+
 VCR.configure do |config|
   config.hook_into :webmock
   config.configure_rspec_metadata!
