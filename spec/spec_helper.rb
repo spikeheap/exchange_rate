@@ -24,7 +24,7 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 
-  config.before(:all) do
+  config.before(:suite) do
     ExchangeRate::DatabaseConnection.connect
   end
 
