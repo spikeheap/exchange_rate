@@ -1,5 +1,6 @@
 require "bundler/setup"
 require 'simplecov'
+require 'vcr'
 
 # We need to start simplecov *before* we load our code
 SimpleCov.start do
@@ -18,4 +19,12 @@ RSpec.configure do |config|
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
+end
+VCR.configure do |config|
+  config.hook_into :webmock
+  config.configure_rspec_metadata!
+  config.default_cassette_options = {
+    allow_unused_http_interactions: false
+  }
+  config.cassette_library_dir = "fixtures/vcr_cassettes"
 end
