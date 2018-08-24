@@ -10,6 +10,9 @@ ExchangeRate has a pluggable backend for FX rate providers, so custom providers 
 
 Rates are stored locally in an SQLite database by default, which should be fine for development and single-instance production deployments. The library leverages ActiveRecord, so you can use another database of choice (see below).
 
+## Requirements
+
+1. Ruby > 2.5.0
 
 ## Installation
 > TODO fix for non-rubygems release
