@@ -88,8 +88,8 @@ module ExchangeRate
       #
       # rate_date_array    - An array of currency/rate ::Hash objects
       # rate_effective_date - The effective ::Date for FX rates in the rate_date_hash.
-      def rates_from(_rate_date_array, rate_effective_date)
-        rate_date_hash['Cube'].map do |currency_rate_hash|
+      def rates_from(rate_date_array, rate_effective_date)
+        rate_date_array['Cube'].map do |currency_rate_hash|
           create_or_update_currency_rate(currency: currency_rate_hash['currency'],
                                          value_in_euro: currency_rate_hash['rate'].to_d,
                                          date_of_rate: rate_effective_date)
