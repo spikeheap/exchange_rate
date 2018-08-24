@@ -1,0 +1,16 @@
+# Exclude RSpec from block length checks because it's all a big block
+Metrics/BlockLength:
+  Exclude:
+    - exchange_rate.gemspec
+    - 'spec/**/*'
+
+# Specs should act as documentation, so shouldn't need this check
+Style/Documentation:
+  Exclude:
+    - 'spec/**/*'
+
+# It's not 1980 anymore ;)
+Metrics/LineLength:  
+  Exclude:
+    - exchange_rate.gemspec
+  Max: 120

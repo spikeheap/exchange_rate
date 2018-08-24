@@ -11,7 +11,8 @@ Gem::Specification.new do |spec|
   spec.email         = ['ryan@ryanbrooks.co.uk']
 
   spec.summary       = 'Retrieve and cache historical foreign exchange rates'
-  spec.description   = "ExchangeRate uses a cache for FX rates so you're not dependent on a constant connection to your FX rate provider of choice, and allow custom FX rate providers to be added with ease."
+  spec.description   = 'ExchangeRate uses a cache for FX rates so you are not dependent on a constant connection to your '\
+                       'FX rate provider of choice, and allow custom FX rate providers to be added with ease.'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
