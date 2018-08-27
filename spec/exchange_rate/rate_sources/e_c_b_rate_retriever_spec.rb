@@ -14,8 +14,8 @@ RSpec.describe ExchangeRate::RateSources::ECBRateRetriever, :vcr do
       expect(ExchangeRate::CurrencyRate.count).to eq(2048)
 
       # Spot check a couple of values.value_in_euro
-      expect(ExchangeRate::CurrencyRate.find_by(date_of_rate: fx_date, currency: 'USD').value_in_euro).to eq(1.1616)
-      expect(ExchangeRate::CurrencyRate.find_by(date_of_rate: fx_date, currency: 'GBP').value_in_euro).to eq(0.89928)
+      expect(ExchangeRate::CurrencyRate.first(date_of_rate: fx_date, currency: 'USD').value_in_euro).to eq(1.1616)
+      expect(ExchangeRate::CurrencyRate.first(date_of_rate: fx_date, currency: 'GBP').value_in_euro).to eq(0.89928)
     end
 
     it 'raises when the feed URL is invalid' do

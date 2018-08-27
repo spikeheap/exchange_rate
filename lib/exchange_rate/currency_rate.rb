@@ -1,6 +1,6 @@
 # frozen_string_literal: true
-
-require 'active_record'
+require 'sequel'
+require 'exchange_rate/database_connection'
 
 module ExchangeRate
   ##
@@ -12,20 +12,22 @@ module ExchangeRate
   #                    value_in_euro = 0.001,
   #                    date_of_rate = Date.parse('2019-03-30'))
   #
-  class CurrencyRate < ActiveRecord::Base
+  class CurrencyRate < Sequel::Model(DatabaseConnection.connection[:currency_rates])
     ##
     # :attr_writer: currency
     # The currency short-code String
-    validates :currency, presence: true
 
     ##
     # :attr_writer: value_in_euro
     # The value of one unit of the currency in Euro
-    validates :value_in_euro, presence: true
 
     ##
     # :attr_writer: date_of_rate
     # The effective date of this FX rate for the currency
-    validates :date_of_rate, presence: true
+    
+    def validate
+      super
+      validates_presence [:currency, :value_in_euro, :date_of_rate]
+    end
   end
 end

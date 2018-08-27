@@ -26,10 +26,6 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 
-  config.before(:suite) do
-    ExchangeRate::DatabaseConnection.connect
-  end
-
   config.after(:each) do
     DatabaseCleaner.clean
   end

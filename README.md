@@ -34,6 +34,11 @@ Or install it yourself as:
 
 TODO: Write usage instructions here
 
+## Local cache
+
+Data is written to a local cache at `db/data.sqlite`. We use the [Sequel](https://github.com/jeremyevans/sequel) ORM, so any compatible database can be used. A custom database can be defined using:
+
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
@@ -45,10 +50,6 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Adding a custom FX provider
 > TODO
-
-## Using a custom database
-> TODO
-> TODO ENV['environment']
 
 ## Refreshing data with cron
 > TODO

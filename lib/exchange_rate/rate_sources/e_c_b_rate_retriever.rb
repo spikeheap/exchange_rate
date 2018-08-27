@@ -2,6 +2,7 @@
 
 require 'active_support/core_ext/hash/conversions.rb'
 require 'net/http'
+require 'sequel/exceptions'
 require 'uri'
 
 module ExchangeRate
@@ -25,8 +26,8 @@ module ExchangeRate
       # Retrieve the feed, parse the contents, and update the local cache.
       #
       # Returns nothing
-      # Raises ExchangeRate::RetrievalFailed if the feed could not be loaded
-      # Raises ExchangeRate::RetrievalFailed if the cache could not be updated
+      # Raises ExchangeRate::RetrievalFailedError if the feed could not be loaded
+      # Raises ExchangeRate::RetrievalFailedError if the cache could not be updated
       #--
       # TODO: doc save does n calls to DB, so could be optimised
       #++
@@ -35,7 +36,7 @@ module ExchangeRate
           .yield_self { |feed_body| parse_feed(feed_body) }
           .map { |rate_date_hash| rates_from(rate_date_hash, date_from(rate_date_hash)) }
           .flatten
-          .map(&:save!)
+          .map(&:save)
         nil
       rescue StandardError
         raise ExchangeRate::RetrievalFailedError
@@ -91,7 +92,7 @@ module ExchangeRate
       def rates_from(rate_date_array, rate_effective_date)
         rate_date_array['Cube'].map do |currency_rate_hash|
           create_or_update_currency_rate(currency: currency_rate_hash['currency'],
-                                         value_in_euro: currency_rate_hash['rate'].to_d,
+                                         value_in_euro: currency_rate_hash['rate'].to_f,
                                          date_of_rate: rate_effective_date)
         end
       end
@@ -104,11 +105,13 @@ module ExchangeRate
       # date_of_rate  - The date this value applies to.
       #
       # Returns true if the record saved
-      # Raises ActiveRecord::RecordNotSaved if the record could not be saved
+      # Raises ExchangeRate::RetrievalFailedError if the record could not be saved
       def create_or_update_currency_rate(currency:, value_in_euro:, date_of_rate:)
-        rate = CurrencyRate.find_or_initialize_by(currency: currency, date_of_rate: date_of_rate)
+        rate = CurrencyRate.find_or_new(currency: currency, date_of_rate: date_of_rate)
         rate.value_in_euro = value_in_euro
-        rate.tap(&:save!)
+        rate.tap(&:save)
+      rescue Sequel::ValidationFailed, Sequel::HookFailed
+        raise ExchangeRate::RetrievalFailedError
       end
     end
   end

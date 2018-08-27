@@ -33,7 +33,7 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency 'pry', '~> 0.11.3'
 
-  spec.add_dependency 'activerecord', '~> 5.2.1'
   spec.add_dependency 'activesupport', '~> 5.2.1'
+  spec.add_dependency 'sequel', '~> 5.11.0'
   spec.add_dependency 'sqlite3', '~> 1.3.13'
 end
