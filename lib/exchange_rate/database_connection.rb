@@ -12,13 +12,8 @@ module ExchangeRate
     # loaded. The connection is cached and kept open.
     #
     # Returns nothing
-    #--
-    # TODO: test
-    # TODO: make into singleton
-    #++
     def self.connection
         # TODO: customisable path
-        # TODO: only apply migration if necessary
         @connection ||= Sequel.connect('sqlite://db/data.sqlite3').tap{ |connection| apply_migrations(connection) }
     end
 

@@ -17,13 +17,7 @@ require 'exchange_rate/version'
 # ExchangeRate uses a cache for FX rates so you are not dependent on a constant connection to your
 # FX rate provider of choice, and allow custom FX rate providers to be added with ease.
 #
-#--
-# TODO remove DB connection line as soon as it's unnecessary
-#++
 # Examples
-#
-#   # Open a connection to the local cache
-#   ExchangeRate::DatabaseConnection.conect
 #
 #   # Retrieve the latest feed data & update the cache
 #   ExchangeRate.retrieve

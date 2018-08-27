@@ -4,7 +4,6 @@ require 'bundler/setup'
 require 'database_cleaner'
 require 'simplecov'
 require 'vcr'
-# FIXME: refactor into multiple files
 
 # We need to start simplecov *before* we load our code
 SimpleCov.start do

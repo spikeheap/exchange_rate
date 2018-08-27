@@ -29,7 +29,8 @@ module ExchangeRate
       # Raises ExchangeRate::RetrievalFailedError if the feed could not be loaded
       # Raises ExchangeRate::RetrievalFailedError if the cache could not be updated
       #--
-      # TODO: doc save does n calls to DB, so could be optimised
+      # TODO: This makes 1 database call per record to be saved. A bulk-insert would speed
+      #       things up considerably.
       #++
       def save!
         retrieve_feed
