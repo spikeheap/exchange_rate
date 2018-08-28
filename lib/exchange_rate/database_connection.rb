@@ -13,8 +13,8 @@ module ExchangeRate
     #
     # Returns nothing
     def self.connection
-        # TODO: customisable path
-        @connection ||= Sequel.connect('sqlite://db/data.sqlite3').tap{ |connection| apply_migrations(connection) }
+      database_url = ExchangeRate.configuration.datastore_url
+      @connection ||= Sequel.connect(database_url).tap { |connection| apply_migrations(connection) }
     end
 
     ##
