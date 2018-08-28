@@ -16,7 +16,7 @@ ExchangeRate has a pluggable backend for FX rate providers, so custom providers 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'exchange_rate'
+gem 'fx_exchange_rate'
 ```
 
 And then execute:
@@ -25,11 +25,13 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install exchange_rate
+    $ gem install fx_exchange_rate
 
 ## Usage
 
 ```ruby
+require 'exchange_rate'
+
 # Retrieve the latest FX rates from the feed
 ExchangeRate.retrieve
 
