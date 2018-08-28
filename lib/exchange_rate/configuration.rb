@@ -13,7 +13,7 @@ module ExchangeRate
     #
     # Returns the default ECB retriever unless one has been set
     def rate_retriever
-      @rate_retriever || ExchangeRate::RateSources::ECBRateRetriever.new
+      @rate_retriever ||= ExchangeRate::RateSources::ECBRateRetriever.new
     end
 
     ##
