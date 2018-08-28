@@ -2,8 +2,6 @@
 
 RSpec.describe ExchangeRate::DatabaseConnection do
   describe '#connection' do
-    # TODO
-
     around do |example|
       # Disconnect everything so we can start a new connection
       described_class.disconnect
@@ -12,6 +10,19 @@ RSpec.describe ExchangeRate::DatabaseConnection do
 
       # Cleanup
       described_class.disconnect
+    end
+
+    it 'connects to the local cache' do
+      expect(Sequel).to receive(:connect)
+      described_class.connection
+    end
+
+    it 'reuses the connection object' do
+      existing_connection = described_class.connection
+
+      # expect it to not connect again
+      expect(Sequel).to_not receive(:connect)
+      expect(described_class.connection).to eq(existing_connection)
     end
 
     it 'uses the Configuration object datastore URL' do
@@ -27,10 +38,22 @@ RSpec.describe ExchangeRate::DatabaseConnection do
   end
 
   describe '#disconnect' do
-    # TODO
+    it 'disconnects the current connetion' do
+      connection = described_class.connection
+      expect(connection).to receive(:disconnect)
+      expect(described_class.disconnect).to be_nil
+    end
+
+    it 'noops if no connection exists' do 
+      expect(described_class.disconnect).to be_nil
+    end
   end
 
-  describe '#apply_schema' do
-    # TODO
+  describe '#apply_migrations' do
+    it 'applies the migrations' do
+      connection = described_class.connection
+      expect(Sequel::Migrator).to receive(:run).with(connection, 'lib/exchange_rate/db/migrate/')
+      described_class.apply_migrations(connection)
+    end
   end
 end
