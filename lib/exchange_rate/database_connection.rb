@@ -19,9 +19,10 @@ module ExchangeRate
     end
 
     ##
-    # Closes any open connections to the database
+    # Closes any open connections to the database and removes the cached connection.
     def self.disconnect
-      @connection.disconnect unless @connection.nil?
+      @connection&.disconnect
+      @connection = nil
     end
 
     ##
