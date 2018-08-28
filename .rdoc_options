@@ -12,6 +12,8 @@ exclude:
 - "Gemfile.lock"
 - "Rakefile"
 - "setup"
+- "lib/exchange_rate/db/migrate/*"
+- "spec/*"
 charset: UTF-8
 hyperlink_all: true
 line_numbers: true
