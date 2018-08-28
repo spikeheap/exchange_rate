@@ -14,4 +14,17 @@ RSpec.describe ExchangeRate::Configuration do
       expect(subject.rate_retriever).to eq('Arbitrary Value')
     end
   end
+
+  describe '#datastore_url' do
+    it 'uses a local SQLite3 connection by default' do
+      expect(subject.datastore_url).to eq('sqlite://db/data.sqlite3')
+    end
+  end
+
+  describe '#datastore_url=' do
+    it 'can set value' do
+      subject.datastore_url = 'Arbitrary Value'
+      expect(subject.datastore_url).to eq('Arbitrary Value')
+    end
+  end
 end

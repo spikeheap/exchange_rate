@@ -38,6 +38,13 @@ TODO: Write usage instructions here
 
 Data is written to a local cache at `db/data.sqlite`. We use the [Sequel](https://github.com/jeremyevans/sequel) ORM, so any compatible database can be used. A custom database can be defined using:
 
+```
+ExchangeRate.configure do |configuration|
+  configuration.datastore_url = 'postgresql://user:password@localhost/exchangerate_db'
+end
+```
+
+You will need to ensure that database exists. The schema will be automatically added by `ExchangeRate`.
 
 ## Development
 

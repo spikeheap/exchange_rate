@@ -19,5 +19,17 @@ module ExchangeRate
     ##
     # The rate retriever to use for (e.g. ExchangeRate.retrieve)
     attr_writer :rate_retriever
+
+    ##
+    # Gets the local cache database URL, defaulting to a local SQLite3 file.
+    #
+    # Returns the local cache URL.
+    def datastore_url
+      @datastore_url ||= 'sqlite://db/data.sqlite3'
+    end
+
+    ##
+    # The local cache database URL, e.g. 'sqlite://db/data.sqlite3'
+    attr_writer :datastore_url
   end
 end
