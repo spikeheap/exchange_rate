@@ -30,6 +30,7 @@ module ExchangeRate
     #
     # Returns nothing
     def self.apply_migrations(connection)
+      return if connection.nil?
       Sequel::Migrator.run(connection, 'lib/exchange_rate/db/migrate/')
     end
   end
