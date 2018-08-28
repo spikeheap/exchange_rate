@@ -25,8 +25,18 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 
+  config.around(:each) do |example|
+    db = Sequel.connect(ExchangeRate.configuration.datastore_url)
+    DatabaseCleaner[:sequel].db = db
+
+    DatabaseCleaner[:sequel].start
+    example.run
+    DatabaseCleaner[:sequel].clean
+  end
+
   config.after(:each) do
-    DatabaseCleaner.clean
+    # Reset the configuration object so we don't blatt other tests
+    ExchangeRate.configuration = ExchangeRate::Configuration.new
   end
 end
 
