@@ -44,7 +44,7 @@ RSpec.describe ExchangeRate::DatabaseConnection do
       expect(described_class.disconnect).to be_nil
     end
 
-    it 'noops if no connection exists' do 
+    it 'noops if no connection exists' do
       expect(described_class.disconnect).to be_nil
     end
   end

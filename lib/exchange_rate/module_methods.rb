@@ -2,12 +2,12 @@
 
 ##
 # Module Methods for ExchangeRate.
-# 
+#
 #--
 # These methods are here because the configuration methods are needed in other classes which are
 # required above the ExchangeRate module definition. It felt cleaner to move the module methods
 # here than shift the module definition above the require statements.
-# 
+#
 # Note: this defines methods on the module rather than providing a mixin because the latter still
 # required the mixin to be included in the module of any class which referenced it. That might be
 # cleaner in the long run.

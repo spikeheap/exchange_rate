@@ -8,6 +8,7 @@ Metrics/BlockLength:
 Style/Documentation:
   Exclude:
     - 'spec/**/*'
+    - 'lib/exchange_rate/db/migrate/*'
 
 # It's not 1980 anymore ;)
 Metrics/LineLength:  
