@@ -60,7 +60,7 @@ RSpec.describe ExchangeRate, :vcr do
     end
   end
 
-  describe 'configure' do
+  describe '#configure' do
     it 'can use a custom FX rate provider' do
       custom_retriever = 'An arbitrary thing'
       ExchangeRate.configure do |config|
@@ -68,6 +68,14 @@ RSpec.describe ExchangeRate, :vcr do
       end
 
       expect(ExchangeRate.configuration.rate_retriever).to eq(custom_retriever)
+    end
+  end
+
+  describe '#configuration=' do
+    it 'sets the Configuration object' do
+      new_value = 'Arbitrary Thing'
+      ExchangeRate.configuration = new_value
+      expect(ExchangeRate.configuration).to eq(new_value)
     end
   end
 end

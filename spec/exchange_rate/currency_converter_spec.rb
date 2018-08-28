@@ -5,14 +5,14 @@ RSpec.describe ExchangeRate::CurrencyConverter do
   let(:subject) { described_class.new(fx_rate_date, 'GBP', 'USD') }
   let(:source_rate) do
     ExchangeRate::CurrencyRate.create(date_of_rate: fx_rate_date,
-                                       currency: 'GBP',
-                                       value_in_euro: 0.89928)
+                                      currency: 'GBP',
+                                      value_in_euro: 0.89928)
   end
 
   let(:target_rate) do
     ExchangeRate::CurrencyRate.create(date_of_rate: fx_rate_date,
-                                       currency: 'USD',
-                                       value_in_euro: 1.1616)
+                                      currency: 'USD',
+                                      value_in_euro: 1.1616)
   end
 
   describe '#convert!' do

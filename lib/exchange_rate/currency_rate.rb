@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'sequel'
 require 'exchange_rate/database_connection'
 
@@ -24,10 +25,10 @@ module ExchangeRate
     ##
     # :attr_writer: date_of_rate
     # The effective date of this FX rate for the currency
-    
+
     def validate
       super
-      validates_presence [:currency, :value_in_euro, :date_of_rate]
+      validates_presence %i[currency value_in_euro date_of_rate]
     end
   end
 end

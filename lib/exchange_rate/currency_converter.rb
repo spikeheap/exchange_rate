@@ -72,7 +72,7 @@ module ExchangeRate
     # Raises ExchangeRate::MissingRateError if a cached rate does not exist.
     def find_currency_rate(currency, date_of_rate)
       CurrencyRate.first(currency: currency, date_of_rate: date_of_rate)
-                  .tap{|rate| raise ExchangeRate::MissingRateError if rate.nil?}
+                  .tap { |rate| raise ExchangeRate::MissingRateError if rate.nil? }
     end
   end
 end

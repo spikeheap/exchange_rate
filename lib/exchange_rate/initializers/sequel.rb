@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # ActiveRecord-style migrations
 Sequel.extension :migration
 

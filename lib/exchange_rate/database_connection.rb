@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'sequel'
 require 'sequel/extensions/migration'
 require 'yaml'
@@ -25,7 +26,7 @@ module ExchangeRate
 
     ##
     # Apply the schema definitions to the database.
-    # 
+    #
     # Returns nothing
     def self.apply_migrations(connection)
       Sequel::Migrator.run(connection, 'lib/exchange_rate/db/migrate/')
